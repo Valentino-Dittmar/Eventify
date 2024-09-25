@@ -16,7 +16,7 @@ jobs:
       - name: Set up Git credentials for HTTPS
         run: |
           git config --global credential.helper store
-          echo "https://i540273:3yoYMzMAHANX3yzEVm_i@git.fhict.nl/I540273/eventify-mirror.git" > ~/.git-credentials
+          echo "https://I540273:3yoYMzMAHANX3yzEVm_i@git.fhict.nl/I540273/eventify-mirror.git" > ~/.git-credentials
 
       - name: Push to GitLab
         run: |

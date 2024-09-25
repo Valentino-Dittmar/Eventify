@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ServiceEntity {
-    private Long serviceId;
-    private String name;
-    private String description;
+    public Long serviceId;
+    public String name;
+    public String description;
 }

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
 
 
 @Data
@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateServiceRequest {
-
-    @NotNull
-    private String serviceName;
+    private String name;
+    private String description;
 }

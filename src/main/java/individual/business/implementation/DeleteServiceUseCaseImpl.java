@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class DeleteServiceUseCaseImpl implements DeleteServiceUseCase {
     private final ServiceRepository serviceRepository;
     @Override
-    public void DeleteServiceUseCaseImpl(long serviceId) {
+    public void deleteService(long serviceId) {
         this.serviceRepository.deleteById(serviceId);
     }
 }

@@ -18,7 +18,7 @@ public class GetServicesUseCaseImpl implements GetServicesUseCase {
     private final ServiceRepository serviceRepository;
 
     @Override
-    public GetAllServicesResponse getStudents(final GetAllServicesRequest request){
+    public GetAllServicesResponse getServices(final GetAllServicesRequest request){
         List<ServiceEntity> results;
         if(StringUtils.hasText(request.getName())){
             results = serviceRepository.findAllByName(request.getName());

@@ -4,5 +4,5 @@ import individual.domain.service.GetAllServicesRequest;
 import individual.domain.service.GetAllServicesResponse;
 
 public interface GetServicesUseCase {
-    GetAllServicesResponse getStudents(GetAllServicesRequest request);
+    GetAllServicesResponse getServices(GetAllServicesRequest request);
 }

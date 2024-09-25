@@ -1,0 +1,26 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa  # Set permissions to secure the private key
+          ssh-keyscan gitlab.com >> ~/.ssh/known_hosts  
+
+      - name: Push to GitLab
+        run: |
+          git remote add gitlab git@git.fhict.nl:I540273/eventify-mirror.git
+          git push gitlab --mirror  # Mirrors all refs (branches, tags, etc.) to GitLab

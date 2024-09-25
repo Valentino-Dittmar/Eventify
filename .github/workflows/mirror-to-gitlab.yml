@@ -23,7 +23,7 @@ jobs:
       - name: Push to GitLab
         run: |
           git remote add gitlab https://git.fhict.nl/I540273/eventify-mirror.git
-          git push gitlab --mirror  
+          git push gitlab --mirror --force 
 
       - name: Remove credentials
         run: |

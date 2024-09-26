@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
     private final ServiceRepository serviceRepository;
+
     @Override
-    public CreateServiceResponse createservice(CreateServiceRequest request) {
+    public CreateServiceResponse createService(CreateServiceRequest request) {
         ServiceEntity savedEntity = saveNewService(request);
         return CreateServiceResponse.builder()
                 .serviceId(savedEntity.getServiceId())
                 .build();
     }
+
     private ServiceEntity saveNewService(CreateServiceRequest request) {
         ServiceEntity newService = ServiceEntity.builder()
                 .name(request.getName())

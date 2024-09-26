@@ -5,4 +5,5 @@ import individual.domain.service.CreateServiceResponse;
 
 public interface CreateServiceUseCase {
     CreateServiceResponse createService(CreateServiceRequest request);
+
 }

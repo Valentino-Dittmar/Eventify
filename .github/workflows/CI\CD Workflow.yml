@@ -81,7 +81,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v4
         with:
           image: valentinodittmar/fontys-project123
-          tags: valentinodittmar/fontys-project123:latest
+          tag: latest
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

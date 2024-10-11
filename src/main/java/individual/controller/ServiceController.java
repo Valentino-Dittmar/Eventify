@@ -27,6 +27,7 @@ public class ServiceController {
         }
         return ResponseEntity.ok().body(serviceOptional.get());
     }
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping
     public ResponseEntity<GetAllServicesResponse> getAllServices(@RequestParam(value = "name", required = false) String serviceName) {
         GetAllServicesRequest request = GetAllServicesRequest.builder().name(serviceName).build();
@@ -50,11 +51,6 @@ public class ServiceController {
         updateServiceUseCase.updateService(request);
         return ResponseEntity.noContent().build();
     }
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/api/services")
-    public ResponseEntity<GetAllServicesResponse> getAllServicesApi(@RequestParam(value = "name", required = false) String serviceName) {
-        GetAllServicesRequest request = GetAllServicesRequest.builder().name(serviceName).build();
-        GetAllServicesResponse response = getServicesUseCase.getServices(request);
-        return ResponseEntity.ok(response);
-    }
+
+
 }

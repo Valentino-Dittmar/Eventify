@@ -1,4 +1,5 @@
 package individual.persistence.implementation;
+import individual.domain.service.Service;
 import individual.persistence.ServiceRepository;
 import individual.persistence.entity.ServiceEntity;
 import org.springframework.stereotype.Repository;

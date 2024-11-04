@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllServicesRequest {
     private String name;
+    private String description;
 }

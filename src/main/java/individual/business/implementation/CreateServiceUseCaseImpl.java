@@ -24,6 +24,7 @@ public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
     private ServiceEntity saveNewService(CreateServiceRequest request) {
         ServiceEntity newService = ServiceEntity.builder()
                 .name(request.getName())
+                .description(request.getDescription())
                 .build();
         return serviceRepository.save(newService);
     }

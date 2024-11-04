@@ -11,6 +11,7 @@ sonar {
     properties {
         property "sonar.projectKey", "Eventify"
         property "sonar.projectName", "Eventify"
+        property "sonar.host.url", "http://localhost:9000"
     }
 }
 

@@ -15,4 +15,5 @@ public class UpdateServiceRequest {
     private Long serviceId;
     @NotBlank
     private String name;
+    private String description;
 }

@@ -30,7 +30,10 @@ public class ServiceController {
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping
     public ResponseEntity<GetAllServicesResponse> getAllServices(@RequestParam(value = "name", required = false) String serviceName) {
-        GetAllServicesRequest request = GetAllServicesRequest.builder().name(serviceName).build();
+        GetAllServicesRequest request = GetAllServicesRequest
+                .builder()
+                .name(serviceName)
+                .build();
         GetAllServicesResponse response = getServicesUseCase.getServices(request);
         return ResponseEntity.ok(response);
     }

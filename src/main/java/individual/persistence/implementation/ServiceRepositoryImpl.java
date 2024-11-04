@@ -1,5 +1,4 @@
 package individual.persistence.implementation;
-import individual.domain.service.Service;
 import individual.persistence.ServiceRepository;
 import individual.persistence.entity.ServiceEntity;
 import org.springframework.stereotype.Repository;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class FakeServiceRepositoryImpl implements ServiceRepository {
+public class ServiceRepositoryImpl implements ServiceRepository {
     private static long NEXT_ID = 1;
     private final List<ServiceEntity> savedServices;
 
-    public FakeServiceRepositoryImpl() {
+    public ServiceRepositoryImpl() {
         this.savedServices = new ArrayList<>();
     }
 

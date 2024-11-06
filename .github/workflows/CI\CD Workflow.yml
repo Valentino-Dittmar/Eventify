@@ -39,12 +39,12 @@ jobs:
         run: ./gradlew test
 
       - name: Generate JaCoCo Report
-        run: ./gradlew jacocoTestReport
+        run: ./gradlew jacocoTestReport sonar
 
-      - name: Run SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonar
+      # - name: Run SonarQube Analysis
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: ./gradlew sonar
 
   dependency-submission:
     runs-on: ubuntu-latest

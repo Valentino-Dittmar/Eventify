@@ -42,6 +42,8 @@ jobs:
       #   run: ./gradlew jacocoTestReport sonar
 
       - name: Run SonarQube Analysis/Test
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew jacocoTestReport sonar \
           -Dsonar.projectKey=Valentino-Dittmar_Eventify \

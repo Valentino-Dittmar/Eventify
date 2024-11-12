@@ -46,6 +46,7 @@ jobs:
           ./gradlew jacocoTestReport sonar \
           -Dsonar.projectKey=Valentino-Dittmar_Eventify \
           -Dsonar.organization=valentino-dittmar \
+          -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
 
   dependency-submission:

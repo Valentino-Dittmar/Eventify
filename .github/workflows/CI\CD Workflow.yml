@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew test
 
       # - name: Generate JaCoCo Report
-      #   run: ./gradlew jacocoTestReport sona
+      #   run: ./gradlew jacocoTestReport son
 
       - name: Run SonarQube Analysis/Test
         env:

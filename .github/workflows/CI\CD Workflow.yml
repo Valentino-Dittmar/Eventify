@@ -12,14 +12,14 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    
+
     services:
       sonarqube:
         image: sonarqube:latest
         ports:
           - 9000:9000
         options: > 
-          --health-cmd='curl -s http://localhost:9000/api/system/health | grep -o "UP"' 
+          --health-cmd="curl -s http://localhost:9000/api/system/health | grep -o UP" 
           --health-interval=10s 
           --health-timeout=5s 
           --health-retries=10

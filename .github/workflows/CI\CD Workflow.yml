@@ -3,10 +3,10 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -18,9 +18,10 @@ jobs:
         image: sonarqube:latest
         ports:
           - 9000:9000
-        options: "--health-cmd=\"curl -s http://localhost:9000/api/system/health | grep -o UP\" --health-interval=15s --health-timeout=10s --health-retries=30"
+        options: "--health-cmd=\"curl -s http://localhost:9000/api/system/health | grep -o UP\" --health-interval=15s --health-timeout=15s --health-retries=40"
         env:
           SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+          SONARQUBE_WEB_JAVAOPTS: "-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError"  # Lower memory limits
 
     steps:
       - name: Checkout code
@@ -47,6 +48,10 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+
+      # Initial wait before starting health checks
+      - name: Initial wait for SonarQube setup
+        run: sleep 60
 
       - name: Wait for SonarQube to be ready
         run: |

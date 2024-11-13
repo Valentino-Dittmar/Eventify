@@ -1,12 +1,12 @@
-name: Build
+name: CI/CD Workflow
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -18,12 +18,13 @@ jobs:
         image: sonarqube:latest
         ports:
           - 9000:9000
-        options: "--health-cmd=\"curl -s http://localhost:9000/api/system/health | grep -o UP\" --health-interval=10s --health-timeout=5s --health-retries=10"
+        options: "--health-cmd=\"curl -s http://localhost:9000/api/system/health | grep -o UP\" --health-interval=15s --health-timeout=10s --health-retries=30"
         env:
           SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -55,14 +56,14 @@ jobs:
               break
             fi
             echo "Waiting for SonarQube to start..."
-            sleep 10
+            sleep 15
           done
 
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: http://localhost:9000
-        run: ./gradlew build sonar --info
+        run: ./gradlew build sonarqube --info
 
       - name: Run additional step
         run: curl http://localhost:9000/health

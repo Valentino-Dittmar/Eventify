@@ -10,10 +10,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: self-hosted
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: self-hosted  
 
     steps:
       # Checkout the code
@@ -40,14 +37,10 @@ jobs:
 
       # Run SonarQube analysis
       - name: SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://localhost:9000  # Adjust if SonarQube is not running locally
         run: ./gradlew build jacocoTestReport sonarqube \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   build-and-deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted 
     needs: build-and-test
     steps:
       # Checkout the code

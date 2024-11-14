@@ -37,7 +37,7 @@ jobs:
 
       # Run SonarQube analysis
       - name: SonarQube Analysis
-        run: ./gradlew build jacocoTestReport sonarqube \
+        run: ./gradlew build jacocoTestReport sonar
 
   build-and-deploy:
     runs-on: [self-hosted, macos]

@@ -6,6 +6,8 @@ import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @Entity
@@ -24,4 +26,15 @@ public class ServiceEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "duration", nullable = false)
+    private BigDecimal duration;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    private EventEntity event;
+
 }

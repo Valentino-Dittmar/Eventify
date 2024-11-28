@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,8 @@ class GetServicesUseCaseImplTest {
                 .serviceId(1L)
                 .name("name")
                 .description("description")
+                .price(BigDecimal.valueOf(12.50))
+                .duration(BigDecimal.valueOf(15.00))
                 .build();
 
         when(serviceRepository.findAll()).thenReturn(Arrays.asList(serviceEntity));

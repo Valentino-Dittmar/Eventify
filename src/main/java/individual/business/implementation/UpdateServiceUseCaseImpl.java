@@ -17,7 +17,7 @@ public class UpdateServiceUseCaseImpl implements UpdateServiceUseCase {
 
     @Override
     public void updateService(UpdateServiceRequest request) {
-        Optional<ServiceEntity> serviceOptional = serviceRepository.findById(request.getServiceId());
+        Optional<ServiceEntity> serviceOptional = serviceRepository.findByServiceId(request.getServiceId());
         if (serviceOptional.isEmpty()) {
             throw(new ServiceNotFoundException(request.getServiceId()));
         }

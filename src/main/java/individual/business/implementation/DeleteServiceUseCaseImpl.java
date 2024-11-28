@@ -11,6 +11,6 @@ public class DeleteServiceUseCaseImpl implements DeleteServiceUseCase {
     private final ServiceRepository serviceRepository;
     @Override
     public void deleteService(long serviceId) {
-        this.serviceRepository.deleteById(serviceId);
+        this.serviceRepository.deleteByServiceId(serviceId);
     }
 }

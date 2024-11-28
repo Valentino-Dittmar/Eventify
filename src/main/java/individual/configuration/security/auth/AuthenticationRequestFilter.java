@@ -30,40 +30,44 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        if (isPublicPath(request)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         final String requestTokenHeader = request.getHeader("Authorization");
         if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
 
-        String accessTokenString = requestTokenHeader.substring(7);
-
         try {
+            String accessTokenString = requestTokenHeader.substring(7);
             AccessToken accessToken = accessTokenDecoder.decode(accessTokenString);
             setupSpringSecurityContext(accessToken);
             chain.doFilter(request, response);
         } catch (InvalidAccessTokenException e) {
-            logger.error("Error validating access token", e);
-            sendAuthenticationError(response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.flushBuffer();
         }
     }
 
-    private void sendAuthenticationError(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.flushBuffer();
+    private boolean isPublicPath(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/oauth2/") || path.startsWith("/login/") || path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs");
     }
 
     private void setupSpringSecurityContext(AccessToken accessToken) {
-        UserDetails userDetails = new User(accessToken.getSubject(), "",
+        UserDetails userDetails = new User(
+                accessToken.getSubject(),
+                "",
                 accessToken.getRoles()
                         .stream()
                         .map(role -> new SimpleGrantedAuthority(SPRING_SECURITY_ROLE_PREFIX + role))
                         .toList());
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
-        usernamePasswordAuthenticationToken.setDetails(accessToken);
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-
 }

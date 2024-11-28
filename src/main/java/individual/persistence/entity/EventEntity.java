@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -31,11 +32,20 @@ public class EventEntity {
     private String location;
 
     @Column(name = "date", nullable = false)
-    private String date; // Consider using java.time.LocalDateTime for better precision
+    private LocalDateTime date;
 
-    // Assuming events can be linked to services
-    @OneToMany
-    @JoinColumn(name = "event_id") // Foreign key in service table
+    @OneToMany(mappedBy = "event")
     private List<ServiceEntity> services;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private UserEntity creator;
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_attendants",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> attendants;
 }

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
@@ -54,20 +56,21 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
     private boolean isPublicPath(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith("/oauth2/") || path.startsWith("/login/") || path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs");
+        return  path.startsWith("/swagger-ui/");
     }
 
+
     private void setupSpringSecurityContext(AccessToken accessToken) {
+        GrantedAuthority authority = new SimpleGrantedAuthority(SPRING_SECURITY_ROLE_PREFIX+ accessToken.getRole().toString());
+
         UserDetails userDetails = new User(
                 accessToken.getSubject(),
                 "",
-                accessToken.getRoles()
-                        .stream()
-                        .map(role -> new SimpleGrantedAuthority(SPRING_SECURITY_ROLE_PREFIX + role))
-                        .toList());
+                Collections.singletonList(authority));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

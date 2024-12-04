@@ -33,8 +33,15 @@ public class ServiceEntity {
     @Column(name = "duration", nullable = false)
     private BigDecimal duration;
 
+    // Many services can belong to one event
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     private EventEntity event;
+
+    // Many services can belong to one invoice
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private InvoiceEntity invoice;
+
 
 }

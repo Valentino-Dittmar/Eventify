@@ -23,8 +23,8 @@ public class InvoiceEntity {
     @Column(name = "invoice_id")
     private Long invoiceId;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount;
 
     @Column(name = "description")
     private String description;
@@ -35,9 +35,12 @@ public class InvoiceEntity {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
     //each invoice can be linked to many services
-    @OneToMany
-    @JoinColumn(name = "invoice_id")
+    @OneToMany(mappedBy = "invoice",  fetch = FetchType.EAGER)
     private List<ServiceEntity> services;
 
     //an event can have a couple of invoices

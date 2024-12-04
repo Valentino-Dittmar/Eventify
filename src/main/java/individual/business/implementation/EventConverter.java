@@ -13,7 +13,7 @@ public class EventConverter {
                 .description(eventEntity.getDescription())
                 .location(eventEntity.getLocation())
                 .date(eventEntity.getDate())
-                .creatorId(eventEntity.getCreator() != null ? eventEntity.getCreator().getId() : null)
+                .creatorId(eventEntity.getCreator() != null ? eventEntity.getCreator().getUserId() : null)
                 .build();
     }
 }

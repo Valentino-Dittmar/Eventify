@@ -10,8 +10,6 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class GetAllServicesResponse {
     private List<Service> services;
 }

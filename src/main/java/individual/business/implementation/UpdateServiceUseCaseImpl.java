@@ -4,9 +4,12 @@ import individual.business.UpdateServiceUseCase;
 import individual.business.exception.ServiceNotFoundException;
 import individual.domain.service.UpdateServiceRequest;
 import individual.persistence.ServiceRepository;
+import individual.persistence.EventRepository;
 import individual.persistence.entity.ServiceEntity;
+import individual.persistence.entity.EventEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,21 +17,32 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UpdateServiceUseCaseImpl implements UpdateServiceUseCase {
     private final ServiceRepository serviceRepository;
+    private final EventRepository eventRepository;
 
+    @Transactional
     @Override
     public void updateService(UpdateServiceRequest request) {
-        Optional<ServiceEntity> serviceOptional = serviceRepository.findByServiceId(request.getServiceId());
-        if (serviceOptional.isEmpty()) {
-            throw(new ServiceNotFoundException(request.getServiceId()));
+        ServiceEntity service = serviceRepository.findByServiceId(request.getServiceId())
+                .orElseThrow(() -> new ServiceNotFoundException(request.getServiceId()));
+
+        if (request.getName() != null) {
+            service.setName(request.getName());
         }
-        ServiceEntity service = serviceOptional.get();
-        updateFields(request, service);
-    }
-    private void updateFields(UpdateServiceRequest request, ServiceEntity service) {
-        service.setName(request.getName());
-        service.setDescription(request.getDescription());
+        if (request.getDescription() != null) {
+            service.setDescription(request.getDescription());
+        }
+        if (request.getPrice() != null) {
+            service.setPrice(request.getPrice());
+        }
+        if (request.getDuration() != null) {
+            service.setDuration(request.getDuration());
+        }
+        if (request.getEventId() != null) {
+            EventEntity event = eventRepository.findById(request.getEventId())
+                    .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+            service.setEvent(event);
+        }
+
         serviceRepository.save(service);
     }
-
-
 }

@@ -1,13 +1,14 @@
 package individual.configuration.security.token;
 
+import individual.persistence.entity.Role;
+
 import java.util.Set;
 
 public interface AccessToken {
     String getSubject();
 
-    Long getStudentId();
+    Long getUserId();
+    Role getRole();
+    boolean hasRole(Role role);
 
-    Set<String> getRoles();
-
-    boolean hasRole(String roleName);
 }

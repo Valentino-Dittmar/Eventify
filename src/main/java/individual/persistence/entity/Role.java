@@ -1,7 +1,7 @@
 package individual.persistence.entity;
 
 public enum Role {
-    EventManager,
-    USER,
+    EVENT_MANAGER,
+    CUSTOMER,
     VENDOR
 }

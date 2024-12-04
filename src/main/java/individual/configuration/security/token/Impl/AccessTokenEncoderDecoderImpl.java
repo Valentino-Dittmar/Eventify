@@ -4,6 +4,7 @@ import individual.configuration.security.token.exceptions.InvalidAccessTokenExce
 import individual.configuration.security.token.AccessToken;
 import individual.configuration.security.token.AccessTokenDecoder;
 import individual.configuration.security.token.AccessTokenEncoder;
+import individual.persistence.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
@@ -12,14 +13,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,19 +31,16 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
 
     @Override
     public String encode(AccessToken accessToken) {
-        Map<String, Object> claimsMap = new HashMap<>();
-        if (!CollectionUtils.isEmpty(accessToken.getRoles())) {
-            claimsMap.put("roles", accessToken.getRoles());
-        }
-        if (accessToken.getStudentId() != null) {
-            claimsMap.put("studentId", accessToken.getStudentId());
-        }
+        Map<String, Object> claimsMap = Map.of(
+                "role", accessToken.getRole().name(),
+                "userId", accessToken.getUserId()
+        );
 
         Instant now = Instant.now();
         return Jwts.builder()
                 .setSubject(accessToken.getSubject())
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(30, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(now.plus(45, ChronoUnit.MINUTES)))
                 .addClaims(claimsMap)
                 .signWith(key)
                 .compact();
@@ -58,10 +53,14 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
                     .parseClaimsJws(accessTokenEncoded);
             Claims claims = jwt.getBody();
 
-            List<String> roles = claims.get("roles", List.class);
-            Long studentId = claims.get("studentId", Long.class);
+            String role = claims.get("role", String.class);
+            Long userId = claims.get("userId", Long.class);
 
-            return new AccessTokenImpl(claims.getSubject(), studentId, roles);
+            return new AccessTokenImpl(
+                    claims.getSubject(),
+                    userId,
+                    Role.valueOf(role)
+            );
         } catch (JwtException e) {
             throw new InvalidAccessTokenException(e.getMessage());
         }

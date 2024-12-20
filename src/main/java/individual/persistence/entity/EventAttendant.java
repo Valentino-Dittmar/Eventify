@@ -1,7 +1,5 @@
 package individual.persistence.entity;
 
-import individual.domain.User.User;
-import individual.domain.event.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

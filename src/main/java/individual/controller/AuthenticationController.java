@@ -2,24 +2,17 @@ package individual.controller;
 
 import individual.business.LoginUserUseCase;
 import individual.business.RegisterUserUseCase;
-import individual.configuration.security.token.AccessTokenEncoder;
-import individual.configuration.security.token.Impl.AccessTokenImpl;
 import individual.domain.User.CreateUserRequest;
 import individual.domain.User.UserLoginRequest;
-import individual.persistence.entity.UserEntity;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController

@@ -1,12 +1,9 @@
 package individual.configuration.security.token.Impl;
+
 import individual.configuration.security.token.AccessToken;
 import individual.persistence.entity.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 @EqualsAndHashCode
 @Getter

@@ -8,6 +8,7 @@ import individual.persistence.InvoiceRepository;
 import individual.persistence.entity.InvoiceEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 public class GetInvoicesUseCaseImpl implements GetInvoicesUseCase {
 
     private final InvoiceRepository invoiceRepository;
-
     @Override
     public GetAllInvoicesResponse getAllInvoices() {
         List<InvoiceEntity> invoiceEntities = invoiceRepository.findAllWithServices();

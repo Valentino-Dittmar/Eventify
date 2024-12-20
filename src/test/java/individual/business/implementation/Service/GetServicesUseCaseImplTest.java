@@ -1,12 +1,12 @@
-package individual.business.implementation;
+package individual.business.implementation.Service;
 
+import individual.business.implementation.GetServicesUseCaseImpl;
+import individual.business.implementation.ServiceConverter;
 import individual.domain.service.GetAllServicesRequest;
 import individual.domain.service.GetAllServicesResponse;
 import individual.domain.service.Service;
 import individual.persistence.ServiceRepository;
 import individual.persistence.entity.ServiceEntity;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -10,15 +10,19 @@ group = 'Individual'
 version = '1.0-SNAPSHOT'
 sonar {
     properties {
-        property "sonar.projectKey", "Eventify"
-        property "sonar.projectName", "Eventify"
-        property("sonar.host.url", "http://localhost:9000")
-        property("sonar.token", "sqp_08b8df16dfd76688fdcf6e85754e461c5c0eaa43")
+//        property "sonar.projectKey", "Eventify"
+//        property "sonar.projectName", "Eventify"
+//        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.token", "a0fc666dca5647f55c8dcd3d9463b41c5551bfb5")
         property("sonar.coverage.exclusions",
                 "src/main/java/individual/configuration/**," +
                         "src/main/java/individual/controller/**," +
                         "src/main/java/individual/domain/**," +
                         "src/main/java/individual/persistence/**")
+        property "sonar.projectKey", "Valentino-Dittmar_Eventify"
+        property "sonar.organization", "valentino-dittmar"
+        property "sonar.host.url", "https://sonarcloud.io"
+
 
     }
 }

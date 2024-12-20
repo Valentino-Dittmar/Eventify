@@ -2,7 +2,6 @@ package individual.business.implementation;
 
 import individual.domain.invoice.Invoice;
 import individual.persistence.entity.InvoiceEntity;
-import individual.persistence.entity.ServiceEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;

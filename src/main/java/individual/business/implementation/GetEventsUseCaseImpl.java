@@ -7,7 +7,7 @@ import individual.domain.event.GetAllEventsResponse;
 import individual.persistence.EventRepository;
 import individual.persistence.entity.EventEntity;
 import lombok.AllArgsConstructor;
-import org.flywaydb.core.internal.util.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class GetEventsUseCaseImpl implements GetEventsUseCase {
 
     private final EventRepository eventRepository;
-
     @Override
     public GetAllEventsResponse getAllEvents(final GetAllEventsRequest request) {
         List<EventEntity> results = StringUtils.hasText(request.getTitle())

@@ -59,14 +59,11 @@ public class WebConfig  {
 //        return httpSecurity.build();
 //    }
 @Bean
-public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
     httpSecurity
 
 
             .csrf(AbstractHttpConfigurer::disable)
-
-//            .sessionManagement(configurer ->
-////                        configurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) should be stateless
             .authorizeHttpRequests(auth ->
                     auth
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -77,7 +74,10 @@ public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Excepti
             .oauth2Login(oauth2 -> oauth2
                     .defaultSuccessUrl("/auth/oauth2-callback", true)
             )
+
+            .exceptionHandling(configue -> configue.authenticationEntryPoint(authenticationEntryPoint))
             .addFilterBefore(authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
 
     return httpSecurity.build();
 }

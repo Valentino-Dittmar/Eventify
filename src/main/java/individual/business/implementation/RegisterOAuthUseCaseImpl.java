@@ -51,7 +51,7 @@ public class RegisterOAuthUseCaseImpl implements RegisterUserUseCase {
         }
 
         AccessTokenImpl accessToken = new AccessTokenImpl( user.getEmail(), user.getUserId(), user.getRole());
-        // Generate the token
+
         String token = accessTokenEncoder.encode(accessToken);
 
         return token;

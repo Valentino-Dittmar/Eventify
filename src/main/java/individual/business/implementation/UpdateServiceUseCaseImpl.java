@@ -3,15 +3,13 @@ package individual.business.implementation;
 import individual.business.UpdateServiceUseCase;
 import individual.business.exception.ServiceNotFoundException;
 import individual.domain.service.UpdateServiceRequest;
-import individual.persistence.ServiceRepository;
 import individual.persistence.EventRepository;
-import individual.persistence.entity.ServiceEntity;
+import individual.persistence.ServiceRepository;
 import individual.persistence.entity.EventEntity;
+import individual.persistence.entity.ServiceEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

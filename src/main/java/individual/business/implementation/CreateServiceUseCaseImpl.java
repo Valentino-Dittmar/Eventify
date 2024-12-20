@@ -27,8 +27,7 @@ public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
     @Transactional
     public ServiceEntity saveNewService(CreateServiceRequest request) {
         EventEntity event = eventRepository.findById(request.getEventId())
-                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
-
+                .orElseThrow(() -> new IllegalArgumentException("Event not found for ID: " + request.getEventId()));
         ServiceEntity newService = ServiceEntity.builder()
                 .name(request.getName())
                 .description(request.getDescription())

@@ -2,12 +2,12 @@ package individual.business.implementation;
 
 import individual.business.UpdateInvoiceUseCase;
 import individual.domain.invoice.UpdateInvoiceRequest;
+import individual.persistence.EventRepository;
 import individual.persistence.InvoiceRepository;
 import individual.persistence.ServiceRepository;
-import individual.persistence.EventRepository;
+import individual.persistence.entity.EventEntity;
 import individual.persistence.entity.InvoiceEntity;
 import individual.persistence.entity.ServiceEntity;
-import individual.persistence.entity.EventEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +46,9 @@ public class UpdateInvoiceUseCaseImpl implements UpdateInvoiceUseCase {
             EventEntity event = eventRepository.findById(request.getEventId())
                     .orElseThrow(() -> new IllegalArgumentException("Event not found"));
             invoice.setEvent(event);
+        }
+        if (invoice == null) {
+            throw new IllegalArgumentException("Invoice not found");
         }
 
         return invoiceRepository.save(invoice);

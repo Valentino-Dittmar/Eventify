@@ -1,9 +1,9 @@
 package individual.configuration.security.token.Impl;
 
-import individual.configuration.security.token.exceptions.InvalidAccessTokenException;
 import individual.configuration.security.token.AccessToken;
 import individual.configuration.security.token.AccessTokenDecoder;
 import individual.configuration.security.token.AccessTokenEncoder;
+import individual.configuration.security.token.exceptions.InvalidAccessTokenException;
 import individual.persistence.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;

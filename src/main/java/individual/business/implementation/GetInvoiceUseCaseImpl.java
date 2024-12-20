@@ -6,6 +6,7 @@ import individual.persistence.InvoiceRepository;
 import individual.persistence.entity.InvoiceEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,7 +15,6 @@ import java.util.Optional;
 public class GetInvoiceUseCaseImpl implements GetInvoiceUseCase {
 
     private final InvoiceRepository invoiceRepository;
-
 
     @Override
     public Optional<Invoice> getInvoiceById(Long invoiceId) {

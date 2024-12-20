@@ -1,16 +1,14 @@
 package individual.controller;
+
 import individual.business.*;
 import individual.domain.event.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,11 +23,11 @@ public class EventController {
 
     @GetMapping("{id}")
     public ResponseEntity<Event> getEvent(@PathVariable(value = "id") final long id) {
-        final Optional<Event> eventOptional = getEventUseCase.getEventById(id);
-        if (eventOptional.isEmpty()) {
+        final Event event = getEventUseCase.getEventById(id);
+        if (event == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(eventOptional.get());
+        return ResponseEntity.ok().body(event);
     }
 
     @CrossOrigin(origins = "http://localhost:5173")

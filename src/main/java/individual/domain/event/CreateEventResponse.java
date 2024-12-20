@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 
 public class CreateEventResponse {
-    private Long id;
+    private Long eventId;
 }

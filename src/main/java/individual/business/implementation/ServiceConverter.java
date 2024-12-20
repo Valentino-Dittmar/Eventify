@@ -11,6 +11,9 @@ public class ServiceConverter {
                 .id(service.getServiceId())
                 .name(service.getName())
                 .description(service.getDescription())
+                .price(service.getPrice())
+                .duration(service.getDuration())
+                .eventId(service.getEvent() != null ? service.getEvent().getEventId() : null)
                 .build();
     }
 }

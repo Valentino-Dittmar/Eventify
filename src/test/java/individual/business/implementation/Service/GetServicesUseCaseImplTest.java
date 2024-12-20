@@ -1,5 +1,7 @@
-package individual.business.implementation;
+package individual.business.implementation.Service;
 
+import individual.business.implementation.GetServicesUseCaseImpl;
+import individual.business.implementation.ServiceConverter;
 import individual.domain.service.GetAllServicesRequest;
 import individual.domain.service.GetAllServicesResponse;
 import individual.domain.service.Service;
@@ -7,12 +9,11 @@ import individual.persistence.ServiceRepository;
 import individual.persistence.entity.ServiceEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,8 @@ class GetServicesUseCaseImplTest {
                 .serviceId(1L)
                 .name("name")
                 .description("description")
+                .price(BigDecimal.valueOf(12.50))
+                .duration(BigDecimal.valueOf(15.00))
                 .build();
 
         when(serviceRepository.findAll()).thenReturn(Arrays.asList(serviceEntity));

@@ -3,8 +3,11 @@ package individual.business.implementation;
 import individual.business.CreateServiceUseCase;
 import individual.domain.service.CreateServiceRequest;
 import individual.domain.service.CreateServiceResponse;
+import individual.persistence.EventRepository;
 import individual.persistence.ServiceRepository;
+import individual.persistence.entity.EventEntity;
 import individual.persistence.entity.ServiceEntity;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
     private final ServiceRepository serviceRepository;
+    private final EventRepository eventRepository;
 
     @Override
     public CreateServiceResponse createService(CreateServiceRequest request) {
@@ -20,12 +24,19 @@ public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
                 .serviceId(savedEntity.getServiceId())
                 .build();
     }
+    @Transactional
+    public ServiceEntity saveNewService(CreateServiceRequest request) {
+        EventEntity event = eventRepository.findById(request.getEventId())
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
 
-    private ServiceEntity saveNewService(CreateServiceRequest request) {
         ServiceEntity newService = ServiceEntity.builder()
                 .name(request.getName())
                 .description(request.getDescription())
+                .price(request.getPrice())
+                .duration(request.getDuration())
+                .event(event)
                 .build();
+
         return serviceRepository.save(newService);
     }
 

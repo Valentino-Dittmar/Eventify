@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ class CreateServiceUseCaseImplTest {
     @Test
     void shouldCreateServiceSuccessfully() {
         // Arrange
-        CreateServiceRequest createRequest = new CreateServiceRequest("TestName", "TestDescription");
+        CreateServiceRequest createRequest = new CreateServiceRequest("TestName", "TestDescription", BigDecimal.valueOf(12.50) , BigDecimal.valueOf(13.12),1L);
 
         ServiceEntity serviceEntity = ServiceEntity.builder()
                 .serviceId(1L)

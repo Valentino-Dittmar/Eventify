@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +35,7 @@ class UpdateServiceUseCaseImplTest {
     void shouldUpdateServiceWhenFound() {
         // Arrange
         Long serviceId = 1L;
-        UpdateServiceRequest request = new UpdateServiceRequest(serviceId, "Updated Name", "Updated Description");
+        UpdateServiceRequest request = new UpdateServiceRequest(serviceId, "Updated Name", "Updated Description", BigDecimal.valueOf(13.00), BigDecimal.valueOf(14.00), 1L);
 
         when(serviceRepository.findById(serviceId)).thenReturn(Optional.of(serviceEntity));
 
@@ -54,7 +55,7 @@ class UpdateServiceUseCaseImplTest {
     void shouldThrowExceptionWhenServiceNotFound() {
         // Arrange
         Long missingServiceId = 100L;
-        UpdateServiceRequest updateRequest = new UpdateServiceRequest(missingServiceId, "New Name", "New Description");
+        UpdateServiceRequest updateRequest = new UpdateServiceRequest(missingServiceId, "New Name", "New Description", BigDecimal.valueOf(11.00), BigDecimal.valueOf(19.00), 2L);
 
         when(serviceRepository.findById(missingServiceId)).thenReturn(Optional.empty());
 

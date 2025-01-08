@@ -41,7 +41,8 @@ public class EventEntity {
     @JoinColumn(name = "creator_id", nullable = false)
     private UserEntity creator;
 
-    @ManyToMany
+    //set it to this because of some lazyloading issues(it's not a good practice)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "event_attendants",
             joinColumns = @JoinColumn(name = "event_id"),

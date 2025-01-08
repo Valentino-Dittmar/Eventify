@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class GetEventsUseCaseImpl implements GetEventsUseCase {
 
     private final EventRepository eventRepository;
+
     @Override
     public GetAllEventsResponse getAllEvents(final GetAllEventsRequest request) {
         List<EventEntity> results = StringUtils.hasText(request.getTitle())

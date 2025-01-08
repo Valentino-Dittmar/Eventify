@@ -31,7 +31,7 @@ public class EventController {
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('EVENT_MANAGER')")
+    @PreAuthorize("hasAnyRole('EVENT_MANAGER', 'CUSTOMER', 'VENDOR')")
     @GetMapping
     public ResponseEntity<GetAllEventsResponse> getAllEvents(
             @RequestParam(required = false) String title

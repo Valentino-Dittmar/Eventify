@@ -62,6 +62,8 @@ public SecurityFilterChain filterChain(HttpSecurity httpSecurity, Authentication
                     auth
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers( "/auth/**", "/auth/oauth2/**").permitAll()
+                            .requestMatchers("/auth/me").authenticated()
+                            .requestMatchers("/auth/google/me").authenticated()
                             .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                             .anyRequest().authenticated()
             )

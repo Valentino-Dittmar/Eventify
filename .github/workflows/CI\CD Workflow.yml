@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: [self-hosted, macos]
+    runs-on: ubuntu-latest, macos-latest, windows-latest
 
     steps:
       # Checkout the code

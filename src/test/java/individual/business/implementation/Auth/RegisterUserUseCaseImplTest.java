@@ -216,6 +216,139 @@ class RegisterUserUseCaseImplTest {
 
         //Verify
         verifyNoInteractions(userRepository, accessTokenEncoder);
+    }
+    @Test
+    void shouldProcessOAuth2UserAndReturnTokenForExistingUser() {
+        // Arrange
+        String email = "test@gmail.com";
+        String name = "John Doe";
+        String picture = "http://example.com/picture.jpg";
+        String providerId = "google-id-123";
 
+        OAuth2User oauth2User = mock(OAuth2User.class);
+        when(oauth2User.getAttribute("email")).thenReturn(email);
+        when(oauth2User.getAttribute("name")).thenReturn(name);
+        when(oauth2User.getAttribute("picture")).thenReturn(picture);
+        when(oauth2User.getAttribute("sub")).thenReturn(providerId);
+
+        UserEntity existingUser = UserEntity.builder()
+                .email(email)
+                .provider(AuthProvider.GOOGLE)
+                .providerId(providerId)
+                .name(name)
+                .profilePicture(picture)
+                .createdAt(LocalDateTime.now())
+                .role(Role.CUSTOMER)
+                .build();
+
+        when(userRepository.findByEmail(email)).thenReturn(existingUser);
+        when(accessTokenEncoder.encode(any(AccessTokenImpl.class))).thenReturn("mock-token");
+
+        // Act
+        String token = registerUserUseCase.processOAuth2User(oauth2User);
+
+        // Assert
+        assertNotNull(token);
+        assertEquals("mock-token", token);
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, never()).save(any(UserEntity.class));
+        verify(accessTokenEncoder, times(1)).encode(any(AccessTokenImpl.class));
+    }
+
+    @Test
+    void shouldProcessOAuth2UserAndRegisterNewUser() {
+        // Arrange
+        String email = "newuser@gmail.com";
+        String name = "Jane Doe";
+        String picture = "http://example.com/jane.jpg";
+        String providerId = "google-id-456";
+
+        OAuth2User oauth2User = mock(OAuth2User.class);
+        when(oauth2User.getAttribute("email")).thenReturn(email);
+        when(oauth2User.getAttribute("name")).thenReturn(name);
+        when(oauth2User.getAttribute("picture")).thenReturn(picture);
+        when(oauth2User.getAttribute("sub")).thenReturn(providerId);
+
+        when(userRepository.findByEmail(email)).thenReturn(null);
+
+        UserEntity savedUser = UserEntity.builder()
+                .userId(1L)
+                .email(email)
+                .provider(AuthProvider.GOOGLE)
+                .providerId(providerId)
+                .name(name)
+                .profilePicture(picture)
+                .createdAt(LocalDateTime.now())
+                .role(Role.CUSTOMER)
+                .build();
+
+        when(userRepository.save(any(UserEntity.class))).thenReturn(savedUser);
+        when(accessTokenEncoder.encode(any(AccessTokenImpl.class))).thenReturn("mock-token");
+
+        // Act
+        String token = registerUserUseCase.processOAuth2User(oauth2User);
+
+        // Assert
+        assertNotNull(token);
+        assertEquals("mock-token", token);
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, times(1)).save(any(UserEntity.class));
+        verify(accessTokenEncoder, times(1)).encode(any(AccessTokenImpl.class));
+    }
+
+    @Test
+    void shouldThrowExceptionForMissingEmailOrName() {
+        // Arrange
+        OAuth2User oauth2User = mock(OAuth2User.class);
+        when(oauth2User.getAttribute("email")).thenReturn(null);
+        when(oauth2User.getAttribute("name")).thenReturn("John Doe");
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                registerUserUseCase.processOAuth2User(oauth2User));
+        assertEquals("Google token is missing required information", exception.getMessage());
+
+        verify(userRepository, never()).findByEmail(anyString());
+        verify(userRepository, never()).save(any(UserEntity.class));
+        verify(accessTokenEncoder, never()).encode(any(AccessTokenImpl.class));
+    }
+    @Test
+    void shouldProcessOAuth2UserWithNullPicture() {
+        // Arrange
+        String email = "user@gmail.com";
+        String name = "No Picture User";
+        String providerId = "google-id-789";
+
+        OAuth2User oauth2User = mock(OAuth2User.class);
+        when(oauth2User.getAttribute("email")).thenReturn(email);
+        when(oauth2User.getAttribute("name")).thenReturn(name);
+        when(oauth2User.getAttribute("picture")).thenReturn(null); // No picture
+        when(oauth2User.getAttribute("sub")).thenReturn(providerId);
+
+        when(userRepository.findByEmail(email)).thenReturn(null);
+
+        UserEntity savedUser = UserEntity.builder()
+                .userId(1L)
+                .email(email)
+                .provider(AuthProvider.GOOGLE)
+                .providerId(providerId)
+                .name(name)
+                .profilePicture(null)
+                .role(Role.CUSTOMER)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        when(userRepository.save(any(UserEntity.class))).thenReturn(savedUser);
+        when(accessTokenEncoder.encode(any(AccessTokenImpl.class))).thenReturn("mock-token");
+
+        // Act
+        String token = registerUserUseCase.processOAuth2User(oauth2User);
+
+        // Assert
+        assertNotNull(token);
+        assertEquals("mock-token", token);
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, times(1)).save(any(UserEntity.class));
+        verify(accessTokenEncoder, times(1)).encode(any(AccessTokenImpl.class));
     }
 }

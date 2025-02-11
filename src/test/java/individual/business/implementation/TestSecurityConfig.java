@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@TestConfiguration
-//public class TestSecurityConfig {
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        // Disable security for tests only
-//        return http.csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-//                .build();
-//    }
-//}
+@TestConfiguration
+public class TestSecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Disable security for tests only
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .build();
+    }
+}

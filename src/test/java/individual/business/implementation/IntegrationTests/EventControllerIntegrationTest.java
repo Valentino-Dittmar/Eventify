@@ -2,7 +2,7 @@ package individual.business.implementation.IntegrationTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import individual.business.*;
-//import individual.business.implementation.TestSecurityConfig;
+import individual.business.implementation.TestSecurityConfig;
 import individual.configuration.security.token.AccessToken;
 import individual.configuration.security.token.AccessTokenDecoder;
 import individual.configuration.security.token.AccessTokenEncoder;
@@ -32,16 +32,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@Import(TestSecurityConfig.class)
-//@TestPropertySource(properties = {
-//        "spring.datasource.url=jdbc:h2:mem:testdb",
-//        "spring.datasource.driver-class-name=org.h2.Driver",
-//        "spring.datasource.username=sa",
-//        "spring.datasource.password=",
-//        "spring.jpa.hibernate.ddl-auto=create-drop",
-//        "spring.jpa.show-sql=true",
-//        "spring.jpa.properties.hibernate.format_sql=true"
-//})
+@Import(TestSecurityConfig.class)
+@TestPropertySource(properties = {
+        "spring.datasource.url=jdbc:h2:mem:testdb",
+        "spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.datasource.username=sa",
+        "spring.datasource.password=",
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.jpa.show-sql=true",
+        "spring.jpa.properties.hibernate.format_sql=true"
+})
 class EventControllerIntegrationTest {
 
     @Autowired
